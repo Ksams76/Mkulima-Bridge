@@ -1,0 +1,36 @@
+{
+  "documents": [
+    {
+      "title": "KALRO – Maize value chain: Good Agricultural Practices",
+      "url": "https://keep.kalro.org/good-agricultural-practices/Maize",
+      "source_organisation": "Kenya Agricultural and Livestock Research Organization",
+      "reviewed_on": "2026-10-30",
+      "text": "KALRO's maize value-chain guidance describes maize varieties grown across different agro-ecological zones and soil types, with different maturity periods. It notes that maize generally performs best in well-drained, well-aerated, deep soils with adequate organic matter and suitable nutrients. Farmers should use crop- and location-appropriate guidance rather than assume one variety or management approach fits every area. This excerpt is general context and does not diagnose a particular field problem or provide fertiliser rates.",
+      "labels": []
+    },
+    {
+      "title": "FAO – How to practice Integrated Pest Management?",
+      "url": "https://www.fao.org/agriculture/crops/thematic-sitemap/theme/spi/scpi-home/managing-ecosystems/integrated-pest-management/ipm-how/en/",
+      "source_organisation": "Food and Agriculture Organization of the United Nations",
+      "reviewed_on": "2026-10-30",
+      "text": "FAO describes integrated pest management as a context-specific process that combines prevention, regular monitoring and suitable management options. Relevant practices can include resistant or suitable varieties, crop rotation, field hygiene and non-chemical management methods where appropriate. Farmers should regularly observe crop development and pest or disease signs, assess what is happening, and monitor whether any action has helped. The guidance stresses that recommendations need to fit local ecological and farming conditions. This excerpt is not a crop-specific prescription.",
+      "labels": []
+    },
+    {
+      "title": "FAO – Integrated Pest Management",
+      "url": "https://www.fao.org/pest-and-pesticide-management/ipm/integrated-pest-management/en/",
+      "source_organisation": "Food and Agriculture Organization of the United Nations",
+      "reviewed_on": "2026-10-30",
+      "text": "FAO defines integrated pest management as careful consideration of available pest-control techniques and integration of appropriate biological, chemical, physical and crop-specific cultural practices. Its purpose is to discourage pest populations while supporting healthy crops and reducing risks to human health and the environment. The approach is dynamic and should consider the local economic, environmental and social context. This excerpt does not authorise or recommend a particular pesticide or application rate.",
+      "labels": []
+    },
+    {
+      "title": "FAO – Farmer Field School approach",
+      "url": "https://www.fao.org/agriculture/ippm/programme/ffs-approach/en/",
+      "source_organisation": "Food and Agriculture Organization of the United Nations",
+      "reviewed_on": "2026-10-30",
+      "text": "FAO's Farmer Field School approach uses regular field observation, comparison and discussion to help farmers learn from crop and ecosystem conditions over a growing season. Farmers and facilitators observe plants, insects, weeds and soil conditions, discuss findings and plan what to examine next. The approach encourages participatory learning and decisions based on observations rather than relying only on top-down instructions.",
+      "labels": []
+    }
+  ]
+}

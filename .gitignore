@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+.venv-1/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local app data and test DBs
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+backend/*_users/
+backend/uploads/
+uploads/
+backend/tests/*test*.db
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Trained models (large; keep out of git)
+models/
+*.onnx

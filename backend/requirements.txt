@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-dotenv
+groq
+google-genai
+requests
+python-multipart
+Pillow
+numpy
+onnxruntime
+huggingface_hub
