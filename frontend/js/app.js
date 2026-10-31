@@ -182,7 +182,7 @@ diagnoseForm.addEventListener("submit",async(event)=>{
     form.append("image",upload,"crop-photo."+(upload.type==="image/png"?"png":upload.type==="image/webp"?"webp":"jpg"));
     form.append("language",document.getElementById("diagnose-language").value);
     const note=document.getElementById("diagnose-note").value.trim(); if(note) form.append("note",note);
-    const response=await fetch(`${API_BASE}/diagnose`,{method:"POST",body:form}); // browser sets the multipart header
+    const response=await fetch(`${API_BASE}/diagnose`,{method:"POST",body:form,credentials:API_BASE?"include":"same-origin"}); // browser sets the multipart header
     let data={}; try{data=await response.json();}catch(_){}
     if(!response.ok) throw new Error(typeof data.detail==="string"?data.detail:`Request failed (${response.status})`);
     renderDiagnosis(data); await loadHistory();

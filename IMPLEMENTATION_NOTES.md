@@ -124,3 +124,12 @@ All new tables are created with `CREATE TABLE IF NOT EXISTS`; the `reminders.cas
 - `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`.
 - Private workspace routes require the HttpOnly session cookie by default.
 - `GET /profile` returns the signed-in account's saved state and timestamp; `PUT /profile` validates and saves the signed-in account's details.
+
+
+## Frontend/backend integration audit (31 Oct 2026)
+
+- There is no `scripts.js` by design: the frontend JavaScript is split into `js/auth.js`, `js/app.js`, `js/extended.js` and `js/ui.js`, loaded by `index.html` and served by FastAPI under `/js/`.
+- Every API path called by those files maps to an existing FastAPI route, and every element ID the scripts look up exists in `index.html`.
+- Fixed: `CORSMiddleware` was registered before the auth middleware, so preflight requests and 401 responses from `http://127.0.0.1:5500` (VS Code Live Server) had no CORS headers and JSON calls failed. CORS is now registered after the auth middleware, and `OPTIONS` requests skip auth. Regression test added in `backend/tests/test_auth.py`.
+- Fixed: the photo-analysis request (`/diagnose`) did not send the session cookie in the Live Server setup, so it returned 401.
+- Added the `.env.example` the README refers to. `/diagnose` needs `CLASSIFIER_MODEL_PATH` and `CLASSIFIER_LABELS_PATH` in `.env`; without them it returns 503.
