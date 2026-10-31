@@ -94,3 +94,20 @@ def test_profile_requires_minimum_farm_details(tmp_path, monkeypatch):
         assert client.post("/auth/register", json={"full_name":"John Farmer", "email":"john@example.com", "password":"password12345"}).status_code == 200
         result = client.put("/profile", json={"farmer_name":"John", "county":"", "sub_county":"", "main_crop":"", "farm_size":""})
         assert result.status_code == 422
+
+
+def test_cors_preflight_and_401_work_for_live_server_origin(tmp_path, monkeypatch):
+    """Frontend on Live Server (:5500) -> FastAPI (:8000): preflight must not hit the auth wall,
+    and 401 responses must still carry CORS headers so the browser shows the real error."""
+    monkeypatch.setattr(service, "DB_PATH", tmp_path / "app.sqlite3")
+    monkeypatch.setattr(service, "AUTH_REQUIRED", True)
+    service.init_db()
+    origin = "http://127.0.0.1:5500"
+    with TestClient(service.app) as client:
+        pre = client.options("/diagnose", headers={"Origin": origin, "Access-Control-Request-Method": "POST"})
+        assert pre.status_code == 200, pre.text
+        assert pre.headers.get("access-control-allow-origin") == origin
+        assert pre.headers.get("access-control-allow-credentials") == "true"
+        blocked = client.get("/profile", headers={"Origin": origin})
+        assert blocked.status_code == 401
+        assert blocked.headers.get("access-control-allow-origin") == origin

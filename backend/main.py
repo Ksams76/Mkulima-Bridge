@@ -65,13 +65,6 @@ FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
 app.mount("/css", StaticFiles(directory=FRONTEND_DIR / "css"), name="css")
 app.mount("/js", StaticFiles(directory=FRONTEND_DIR / "js"), name="js")
 app.mount("/images", StaticFiles(directory=FRONTEND_DIR / "images"), name="images")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:8000", "http://localhost:8000"],
-    allow_credentials=True, allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "X-Supervisor-Token"],
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?$",
-)
 
 
 class FarmProfile(BaseModel):
@@ -481,7 +474,7 @@ PUBLIC_PREFIXES = ("/css/", "/js/", "/images/")
 @app.middleware("http")
 async def require_farmer_session(request: Request, call_next):
     path = request.url.path
-    if not AUTH_REQUIRED or path in PUBLIC_PATHS or path.startswith(PUBLIC_PREFIXES):
+    if request.method == "OPTIONS" or not AUTH_REQUIRED or path in PUBLIC_PATHS or path.startswith(PUBLIC_PREFIXES):
         return await call_next(request)
     user = _session_user(request.cookies.get(SESSION_COOKIE_NAME))
     if not user:
@@ -492,6 +485,16 @@ async def require_farmer_session(request: Request, call_next):
         return await call_next(request)
     finally:
         ACTIVE_USER_ID.reset(token)
+
+# CORS is registered AFTER the auth middleware on purpose: Starlette runs the last-added middleware first,
+# so preflight (OPTIONS) requests and 401 responses from the Live Server :5500 -> FastAPI :8000 setup still get CORS headers.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:8000", "http://localhost:8000"],
+    allow_credentials=True, allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "X-Supervisor-Token"],
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+)
 
 @app.post("/auth/register")
 def register_account(data: RegisterInput, response: Response):
